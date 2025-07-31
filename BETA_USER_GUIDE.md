@@ -26,16 +26,24 @@ pip install -e .
 *Note: After beta, install via: `pip install axoden-client`*
 
 ### Step 3: Configure Your API Key
+
+**Recommended: Easy Setup**
 ```bash
-# Run interactive setup
-axoden quickstart
+axoden setup-key  # Choose clipboard paste (easiest!)
+```
 
-# Or set manually
-axoden config --api-key YOUR_BETA_API_KEY
-
-# Verify connection
+**Alternative: Environment Variable**
+```bash
+export AXODEN_API_KEY='your_beta_api_key'
 axoden config --test
 ```
+
+**Alternative: Full Interactive Setup**
+```bash
+axoden quickstart
+```
+
+💡 **Pro Tip**: Copy your API key to clipboard first, then use `axoden setup-key` for the smoothest experience!
 
 ## 💡 How AxoDen Enhances Claude Code
 

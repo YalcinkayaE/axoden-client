@@ -141,7 +141,7 @@ def analyze(path: str):
 
 
 @main.command()
-@click.option("--api-key", help="Set AxoDen API key")
+@click.option("--api-key", help="Set AxoDen API key (or use AXODEN_API_KEY env var)")
 @click.option("--base-url", help="Set API base URL")
 @click.option("--show", is_flag=True, help="Show current configuration")
 @click.option("--test", is_flag=True, help="Test API connection")
@@ -164,8 +164,19 @@ def config(api_key: Optional[str], base_url: Optional[str], show: bool, test: bo
         return
     
     if api_key:
+        # If API key looks like it might be a file path or env var reference
+        if api_key.startswith('$') or api_key.startswith('~') or '/' in api_key:
+            console.print("[yellow]⚠️  This looks like a file path or env var. Use the actual API key value.[/yellow]")
+            console.print("[yellow]If you meant to use an environment variable, just set it:[/yellow]")
+            console.print("[bold]export AXODEN_API_KEY='your_actual_key'[/bold]")
+            return
+        
+        if len(api_key) < 10:
+            console.print("[red]❌ API key seems too short. Please check and try again.[/red]")
+            return
+            
         config.save_api_key(api_key)
-        console.print("[green]✅ API key saved securely[/green]")
+        console.print(f"[green]✅ API key saved securely ({len(api_key)} characters)[/green]")
     
     if base_url:
         config.base_url = base_url
@@ -218,6 +229,80 @@ def list(domain: Optional[str]):
 
 
 @main.command()
+def setup_key():
+    """Easy API key setup with multiple input options"""
+    console.print(Panel(
+        "[bold blue]AxoDen API Key Setup[/bold blue]\n\n"
+        "Choose the best way to enter your API key:",
+        border_style="blue"
+    ))
+    
+    config = AxoDenConfig()
+    
+    console.print("\n[bold]Choose input method:[/bold]")
+    console.print("1. 📋 Paste from clipboard (recommended)")
+    console.print("2. ⌨️  Type manually (hidden)")
+    console.print("3. 🔧 Set environment variable")
+    console.print("4. 📄 Show current status")
+    
+    choice = click.prompt("\nSelect option (1-4)", type=click.Choice(['1', '2', '3', '4']))
+    
+    if choice == '1':
+        console.print("\n[cyan]📋 Copy your API key to clipboard first, then press Enter...[/cyan]")
+        click.pause()
+        try:
+            import subprocess
+            if sys.platform == "darwin":  # macOS
+                api_key = subprocess.check_output(["pbpaste"]).decode().strip()
+            elif sys.platform == "linux":
+                api_key = subprocess.check_output(["xclip", "-selection", "clipboard", "-o"]).decode().strip()
+            elif sys.platform == "win32":
+                api_key = subprocess.check_output(["powershell", "-command", "Get-Clipboard"]).decode().strip()
+            else:
+                raise Exception("Unsupported platform")
+            
+            if len(api_key) < 10:
+                console.print("[red]❌ Clipboard content seems too short for an API key[/red]")
+                return
+                
+            console.print(f"[green]✅ Got API key from clipboard ({len(api_key)} characters)[/green]")
+            config.save_api_key(api_key)
+            console.print("[green]🔐 API key saved securely![/green]")
+            
+        except Exception as e:
+            console.print(f"[red]❌ Could not read from clipboard: {e}[/red]")
+            console.print("[yellow]💡 Try option 2 (manual entry) or 3 (environment variable)[/yellow]")
+            
+    elif choice == '2':
+        console.print("\n[yellow]⚠️  Characters will be hidden for security[/yellow]")
+        api_key = click.prompt("Enter your API key", hide_input=True)
+        if len(api_key) < 10:
+            console.print("[red]❌ API key seems too short[/red]")
+            return
+        config.save_api_key(api_key)
+        console.print(f"[green]✅ API key saved ({len(api_key)} characters)[/green]")
+        
+    elif choice == '3':
+        console.print("\n[cyan]🔧 Environment Variable Setup:[/cyan]")
+        console.print("Add this line to your shell profile:")
+        console.print("[bold green]export AXODEN_API_KEY='your_api_key_here'[/bold green]")
+        console.print("\n📁 Shell profile locations:")
+        console.print("• macOS/Linux: ~/.bashrc or ~/.zshrc")
+        console.print("• Windows: Use System Environment Variables")
+        console.print("\n🔄 After adding it, restart your terminal or run:")
+        console.print("[bold]source ~/.zshrc[/bold]")
+        console.print("\n✨ Then run: [bold]axoden config --test[/bold]")
+        
+    else:  # choice == '4'
+        if config.api_key:
+            console.print(f"[green]✅ API key is configured ({len(config.api_key)} characters)[/green]")
+            console.print(f"🔧 Base URL: {config.base_url}")
+        else:
+            console.print("[red]❌ No API key configured[/red]")
+            console.print("Run this command again and choose option 1, 2, or 3")
+
+
+@main.command()
 def quickstart():
     """Interactive quickstart guide for new users"""
     console.print(Panel(
@@ -233,9 +318,45 @@ def quickstart():
         console.print("\n[yellow]First, you'll need an AxoDen API key.[/yellow]")
         console.print("Visit [link]https://axoden.com/beta[/link] to request access.\n")
         
-        api_key = click.prompt("Enter your API key", hide_input=True)
-        config.save_api_key(api_key)
-        console.print("[green]✅ API key saved![/green]\n")
+        console.print("[bold]Choose how to enter your API key:[/bold]")
+        console.print("1. Type it in (hidden)")
+        console.print("2. Paste from clipboard")
+        console.print("3. Set environment variable (recommended)")
+        
+        choice = click.prompt("\nSelect option (1-3)", type=click.Choice(['1', '2', '3']))
+        
+        if choice == '1':
+            api_key = click.prompt("Enter your API key", hide_input=True)
+        elif choice == '2':
+            console.print("\n[cyan]Copy your API key to clipboard, then press Enter...[/cyan]")
+            click.pause()
+            try:
+                import subprocess
+                if sys.platform == "darwin":  # macOS
+                    api_key = subprocess.check_output(["pbpaste"]).decode().strip()
+                elif sys.platform == "linux":
+                    api_key = subprocess.check_output(["xclip", "-selection", "clipboard", "-o"]).decode().strip()
+                elif sys.platform == "win32":
+                    api_key = subprocess.check_output(["powershell", "-command", "Get-Clipboard"]).decode().strip()
+                else:
+                    raise Exception("Unsupported platform")
+                console.print(f"[green]✅ Got API key from clipboard ({len(api_key)} characters)[/green]")
+            except Exception:
+                console.print("[red]❌ Could not read from clipboard. Please use option 1 or 3.[/red]")
+                api_key = click.prompt("Enter your API key", hide_input=True)
+        else:  # choice == '3'
+            console.print("\n[cyan]Add this to your shell profile (~/.bashrc, ~/.zshrc, etc.):[/cyan]")
+            console.print("[bold]export AXODEN_API_KEY='your_api_key_here'[/bold]")
+            console.print("\nThen restart your terminal or run: [bold]source ~/.zshrc[/bold]")
+            console.print("\n[yellow]After setting the environment variable, run 'axoden quickstart' again.[/yellow]")
+            return
+        
+        if api_key and len(api_key) > 10:  # Basic validation
+            config.save_api_key(api_key)
+            console.print("[green]✅ API key saved![/green]\n")
+        else:
+            console.print("[red]❌ Invalid API key. Please try again.[/red]")
+            return
     
     # Show example usage
     console.print("[bold]Example Usage:[/bold]\n")

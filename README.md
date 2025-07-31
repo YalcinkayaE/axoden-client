@@ -13,11 +13,15 @@ pip install axoden-client
 ### First-Time Setup
 
 ```bash
-# Run interactive setup
+# Easy API key setup (recommended)
+axoden setup-key
+
+# Or run full interactive setup
 axoden quickstart
 
-# Or manually configure
-axoden config --api-key YOUR_BETA_API_KEY
+# Or use environment variable (best for automation)
+export AXODEN_API_KEY='your_beta_api_key'
+axoden config --test
 ```
 
 ### Basic Usage
@@ -97,9 +101,26 @@ axoden analyze --path ./src
 
 ## 🔧 Advanced Configuration
 
-### Environment Variables
+### API Key Setup Options
+
+**Option 1: Easy Setup (Recommended)**
+```bash
+axoden setup-key  # Interactive setup with clipboard support
+```
+
+**Option 2: Environment Variable**
 ```bash
 export AXODEN_API_KEY="your_api_key"
+axoden config --test
+```
+
+**Option 3: Direct Configuration**
+```bash
+axoden config --api-key YOUR_API_KEY
+```
+
+**Advanced Configuration**
+```bash
 export AXODEN_API_URL="https://api.axoden.com"  # For custom deployments
 export AXODEN_AGENT_ID="custom-agent-id"  # Optional
 ```
