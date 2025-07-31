@@ -1,6 +1,6 @@
-# AxoDen Client - Claude Code Integration
+# AxoDen Client - AI-Powered Development Guidance
 
-Transform your development workflow with AI-powered methodology recommendations from AxoDen's proprietary knowledge base, seamlessly integrated with Claude Code.
+Transform your development workflow with intelligent methodology recommendations from AxoDen's proprietary knowledge base, seamlessly integrated with Claude Code.
 
 ## 🚀 Quick Start
 
@@ -33,7 +33,7 @@ axoden recommend "debug memory leak in production API"
 # Analyze current project
 axoden analyze
 
-# List available methodologies
+# List available approaches
 axoden list
 ```
 
@@ -48,7 +48,7 @@ axoden list
 
 2. **Copy the formatted output** and paste into Claude Code
 
-3. **Ask Claude Code** to implement using the recommended methodology
+3. **Ask Claude Code** to implement using the recommended approach
 
 ### Method 2: Clipboard Integration
 
@@ -74,20 +74,20 @@ Reference the file in your Claude Code session.
 
 ### Debugging Workflow
 ```bash
-# 1. Get debugging methodology
+# 1. Get debugging approach
 axoden recommend "debug intermittent API timeout errors"
 
 # 2. AxoDen returns systematic debugging approach
-# 3. Apply in Claude Code: "Using the Test Isolation methodology, help me debug..."
+# 3. Apply in Claude Code: "Using the recommended approach, help me debug..."
 ```
 
 ### Architecture Decisions
 ```bash
-# 1. Get architecture methodology
+# 1. Get architecture guidance
 axoden recommend "design microservices architecture" --context '{"team_size": 5}'
 
-# 2. Receive Domain-Driven Design methodology
-# 3. Apply: "Following DDD principles from AxoDen, design a service architecture..."
+# 2. Receive structured design methodology
+# 3. Apply: "Following the recommended design principles, architect a service..."
 ```
 
 ### Performance Optimization
@@ -95,7 +95,7 @@ axoden recommend "design microservices architecture" --context '{"team_size": 5}
 # 1. Analyze project for performance recommendations
 axoden analyze --path ./src
 
-# 2. Get targeted optimization methodologies
+# 2. Get targeted optimization approaches
 # 3. Implement with Claude Code guidance
 ```
 
@@ -144,7 +144,7 @@ rm -rf ~/.axoden
 axoden recommend "implement authentication" --format claude
 ```
 Returns formatted markdown with:
-- Clear methodology name and confidence
+- Clear approach name and confidence
 - Step-by-step implementation guide
 - Reasoning and alternatives
 - Ready to paste into Claude Code
@@ -162,7 +162,7 @@ As a beta tester, please help us improve by:
 1. **Testing Various Problems**
    - Try different types of development challenges
    - Test with different project contexts
-   - Verify methodology relevance
+   - Verify approach relevance
 
 2. **Integration Feedback**
    - How well do recommendations work with Claude Code?
@@ -191,7 +191,7 @@ axoden config --api-key YOUR_KEY
 
 ### No Recommendations Returned
 - Check API connection: `curl https://api.axoden.com/health`
-- Verify methodology brain is active and responding
+- Verify system is active and responding
 - Try simpler problem descriptions
 
 ### Clipboard Not Working
@@ -202,17 +202,17 @@ axoden config --api-key YOUR_KEY
 ## 📊 How It Works
 
 1. **Problem Analysis**: AxoDen analyzes your development challenge
-2. **Methodology Matching**: Searches proprietary knowledge base across multiple domains
-3. **Cognitive Optimization**: Matches recommendations to developer thinking style
+2. **Approach Matching**: Searches proprietary knowledge base for relevant solutions
+3. **Intelligent Optimization**: Matches recommendations to your development context
 4. **Claude Code Format**: Formats guidance for optimal Claude Code consumption
-5. **Seamless Integration**: Apply methodologies directly in your workflow
+5. **Seamless Integration**: Apply approaches directly in your workflow
 
 ## 🚀 Coming Soon
 
-- [ ] VS Code extension for inline methodology suggestions
+- [ ] VS Code extension for inline approach suggestions
 - [ ] Claude Code plugin for automatic methodology lookup
 - [ ] Team collaboration features
-- [ ] Methodology success tracking
+- [ ] Approach success tracking
 - [ ] Custom methodology creation
 
 ## 📝 License
@@ -232,4 +232,4 @@ https://github.com/YalcinkayaE/axoden-client/issues
 
 ---
 
-**AxoDen Client v0.1.0** - Empowering developers with proven methodologies
+**AxoDen Client v0.1.0** - Empowering developers with proven approaches

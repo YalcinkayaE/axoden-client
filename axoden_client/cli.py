@@ -67,7 +67,7 @@ def recommend(problem: str, context: Optional[str], format: str, save: bool):
                 sys.exit(1)
         
         # Show loading indicator
-        with console.status("[bold green]Consulting AxoDen's methodology database..."):
+        with console.status("[bold green]Consulting AxoDen's knowledge base..."):
             recommendation = client.recommend(problem, project_context, format)
         
         # Display recommendation

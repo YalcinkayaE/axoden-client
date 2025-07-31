@@ -1,10 +1,10 @@
 # AxoDen Beta User Guide - Claude Code Integration
 
-Welcome to the AxoDen beta program! This guide will help you integrate AxoDen's AI-powered methodology recommendations into your Claude Code development workflow.
+Welcome to the AxoDen beta program! This guide will help you integrate AxoDen's AI-powered approach recommendations into your Claude Code development workflow.
 
 ## 🎯 What is AxoDen?
 
-AxoDen is an intelligent development guidance system that provides data-driven methodology recommendations from a proprietary knowledge base of proven problem-solving approaches. When integrated with Claude Code, it transforms reactive problem-solving into systematic, methodology-driven development.
+AxoDen is an intelligent development guidance system that provides data-driven approach recommendations from a proprietary knowledge base of proven problem-solving techniques. When integrated with Claude Code, it transforms reactive problem-solving into systematic, approach-driven development.
 
 ## 🚀 Beta Access Setup
 
@@ -58,7 +58,7 @@ Result: Trial and error approach
 ```
 You: axoden recommend "fix persistent test failures in pytest"
 AxoDen: Returns systematic debugging approach with specific steps
-You: "Apply Test Isolation Methodology to fix these pytest failures"
+You: "Apply the recommended testing approach to fix these pytest failures"
 Claude: *Systematic implementation following proven methodology*
 Result: Structured, effective solution
 ```
@@ -67,11 +67,11 @@ Result: Structured, effective solution
 
 ### 1. Debugging Problems
 ```bash
-# Get debugging methodology
+# Get debugging approach
 axoden recommend "debug memory leak in FastAPI application"
 
 # Example output:
-🎯 Recommended Methodology: Memory Profiling Pipeline
+🎯 Recommended Approach: Memory Profiling Pipeline
 📊 Confidence: 85%
 📋 Implementation Steps:
 1. Set up profiling and monitoring tools
@@ -95,12 +95,12 @@ axoden recommend "design scalable microservices architecture" \
 # Analyze project and get optimization strategies
 axoden analyze --path ./src
 
-# Returns targeted performance methodologies based on codebase analysis
+# Returns targeted performance approaches based on codebase analysis
 ```
 
 ### 4. Code Quality Improvements
 ```bash
-# Get refactoring methodology
+# Get refactoring approach
 axoden recommend "refactor legacy Django monolith"
 
 # Returns: Strangler Fig Pattern with migration steps
@@ -114,7 +114,7 @@ axoden recommend "refactor legacy Django monolith"
 python -m axoden_client.claude_integration "implement rate limiting"
 
 # 2. Paste into Claude Code session
-# 3. Claude now has methodology context for better assistance
+# 3. Claude now has approach context for better assistance
 ```
 
 ### File-Based Workflow
@@ -123,7 +123,7 @@ python -m axoden_client.claude_integration "implement rate limiting"
 axoden recommend "implement OAuth2 authentication" --save
 
 # 2. Reference in Claude Code:
-# "I have AxoDen's methodology in axoden_recommendation_*.md, please implement"
+# "I have AxoDen's approach in axoden_recommendation_*.md, please implement"
 ```
 
 ### Project Analysis Workflow
@@ -131,7 +131,7 @@ axoden recommend "implement OAuth2 authentication" --save
 # 1. Analyze entire project
 axoden analyze
 
-# 2. Get project-specific methodology recommendations
+# 2. Get project-specific approach recommendations
 # 3. Apply systematically with Claude Code
 ```
 
@@ -147,8 +147,8 @@ Please help us improve by testing these scenarios:
 - [ ] Clipboard integration on your OS
 
 ### Integration Testing
-- [ ] Methodology relevance to your problems
-- [ ] Claude Code's response to methodology prompts
+- [ ] Approach relevance to your problems
+- [ ] Claude Code's response to approach prompts
 - [ ] Workflow smoothness
 - [ ] Time saved vs traditional approach
 
@@ -157,11 +157,11 @@ Track what features would improve your workflow:
 - [ ] IDE integration?
 - [ ] Automatic Claude Code prompt injection?
 - [ ] Team collaboration features?
-- [ ] Methodology history tracking?
+- [ ] Approach history tracking?
 
 ## 📊 Beta Metrics We're Tracking
 
-1. **Methodology Effectiveness**: Do recommendations solve your problems?
+1. **Approach Effectiveness**: Do recommendations solve your problems?
 2. **Integration Smoothness**: How many steps to get value?
 3. **Time Savings**: Faster problem resolution?
 4. **User Satisfaction**: NPS and feedback scores
@@ -191,7 +191,7 @@ Report to: beta-feedback@axoden.com
 ## 🎉 Beta Benefits
 
 As a beta user, you get:
-- **Early Access**: First to use AxoDen's revolutionary methodology system
+- **Early Access**: First to use AxoDen's intelligent approach system
 - **Direct Influence**: Your feedback shapes the product
 - **Extended Trial**: 6 months free access post-launch
 - **Beta Badge**: Recognition in the AxoDen community
@@ -232,4 +232,4 @@ Join other beta testers:
 - Documentation: https://docs.axoden.com/beta
 - Status Page: https://status.axoden.com
 
-Welcome to the future of methodology-driven development with AxoDen! 🎯
+Welcome to the future of approach-driven development with AxoDen! 🎯

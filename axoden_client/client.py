@@ -138,7 +138,7 @@ class AxoDenClient:
                     # API returned success but no methodology data
                     raise MethodologyNotFoundError(
                         f"API returned success but no methodology recommendations available. "
-                        f"The deployed system may be missing the methodology database. "
+                        f"The deployed system may be missing the knowledge base. "
                         f"Response: {response_data}"
                     )
             else:
@@ -150,7 +150,7 @@ class AxoDenClient:
         except Exception as e:
             raise MethodologyNotFoundError(
                 f"Could not connect to AxoDen API or get methodology recommendation for: {problem}. "
-                f"Error: {e}. Please check if the deployed system has the complete methodology database."
+                f"Error: {e}. Please check if the deployed system has the complete knowledge base."
             )
     
     def _detect_project_context(self) -> Dict[str, Any]:
