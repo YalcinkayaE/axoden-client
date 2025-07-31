@@ -122,7 +122,7 @@ class AxoDenClient:
             }
         }
         
-        # Try new assignment endpoint first
+        # Make request to assignment endpoint
         try:
             response = self.session.post(
                 f"{self.base_url}/api/v1/assignments/request?agent_id={self.agent_id}",
@@ -130,23 +130,28 @@ class AxoDenClient:
             )
             
             if response.status_code == 200:
-                return self._parse_recommendation(response.json(), format)
+                response_data = response.json()
+                # Check if we got actual methodology data or just generic response
+                if "methodology" in response_data or "steps" in response_data:
+                    return self._parse_recommendation(response_data, format)
+                else:
+                    # API returned success but no methodology data
+                    raise MethodologyNotFoundError(
+                        f"API returned success but no methodology recommendations available. "
+                        f"The deployed system may be missing the methodology database. "
+                        f"Response: {response_data}"
+                    )
+            else:
+                # API returned error status
+                raise MethodologyNotFoundError(
+                    f"API request failed with status {response.status_code}: {response.text}"
+                )
+                
         except Exception as e:
-            print(f"Assignment endpoint failed: {e}")
-        
-        # Fallback to orchestration status for methodology info
-        try:
-            response = self.session.get(f"{self.base_url}/api/v1/orchestration/status")
-            if response.status_code == 200:
-                data = response.json()
-                # Create synthetic recommendation from available data
-                return self._create_fallback_recommendation(problem, data, format)
-        except Exception:
-            pass
-        
-        raise MethodologyNotFoundError(
-            f"Could not get methodology recommendation for: {problem}"
-        )
+            raise MethodologyNotFoundError(
+                f"Could not connect to AxoDen API or get methodology recommendation for: {problem}. "
+                f"Error: {e}. Please check if the deployed system has the complete methodology database."
+            )
     
     def _detect_project_context(self) -> Dict[str, Any]:
         """Auto-detect project context from current directory"""
@@ -196,34 +201,7 @@ class AxoDenClient:
         
         return recommendation
     
-    def _create_fallback_recommendation(self, 
-                                       problem: str, 
-                                       orchestration_data: Dict,
-                                       format: str) -> MethodologyRecommendation:
-        """Create recommendation from orchestration status when assignment fails"""
-        # Extract methodology info from orchestration status
-        axoden_info = orchestration_data.get("axoden", {})
-        total_methodologies = axoden_info.get("total_methodologies", 0)
-        
-        # Create a generic but helpful recommendation
-        recommendation = MethodologyRecommendation(
-            methodology_name="Systematic Problem Analysis",
-            description=f"Apply systematic analysis from AxoDen's {total_methodologies} methodologies",
-            confidence=0.7,
-            steps=[
-                "1. Define the problem scope and constraints",
-                "2. Analyze root causes systematically", 
-                "3. Apply domain-specific best practices",
-                "4. Iterate and validate solutions"
-            ],
-            reasoning=f"Based on '{problem}' and AxoDen's methodology database",
-            alternatives=["Root Cause Analysis", "Design Thinking", "Test-Driven Development"]
-        )
-        
-        if format == "claude":
-            recommendation.format_for_claude_code()
-            
-        return recommendation
+    # Fallback method removed - client now requires working API with real methodology database
     
     def list_methodologies(self, domain: Optional[str] = None) -> List[Dict[str, str]]:
         """List available methodologies, optionally filtered by domain"""
